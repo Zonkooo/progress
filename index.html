@@ -46,6 +46,8 @@
     var c = document.getElementById("drawArea");
     var ctx = c.getContext("2d");
 
+
+    var toload = 6;
     var ar = document.createElement("img");
     ar.src = "ar.png";
     var ur = document.createElement("img");
@@ -53,7 +55,6 @@
     var pe = document.createElement("img");
     pe.src = "pe.png";
     var bo = document.createElement("img");
-    bo.src = "bo.png";
     bo.src = "bo.png";
     var py = document.createElement("img");
     py.src = "py.png";
@@ -68,7 +69,28 @@
         new Stay(ar, new Date("September 21, 2018"), new Date(), '🇦🇷'),
     ];
 
-    bo.addEventListener("load", function () {
+    bo.addEventListener("load", processIfLoaded);
+    py.addEventListener("load", processIfLoaded);
+    br.addEventListener("load", processIfLoaded);
+    ar.addEventListener("load", processIfLoaded);
+    pe.addEventListener("load", processIfLoaded);
+    ur.addEventListener("load", processIfLoaded);
+
+
+    holiday_ratio = (253/365);
+    equiv_holidays = (new Date() - trip_start)*holiday_ratio; //nombre de jours à poser pour faire pareil
+    holidays_fr = 35/365;
+    holidays_us = 10/365;
+    equiv_fr = equiv_holidays/holidays_fr;
+    equiv_us = equiv_holidays/holidays_us;
+    document.getElementById("hfr").innerHTML = humanizeDuration(equiv_fr, { units: ['y', 'mo', 'd'], round: true });
+    document.getElementById("hus").innerHTML = humanizeDuration(equiv_us, { units: ['y', 'mo', 'd'], round: true });
+
+
+    function processIfLoaded() {
+        toload--;
+        if(toload > 0)
+            return;
 
         len = [];
         for (var s of stays) {
@@ -95,18 +117,7 @@
             textdur += f + " " + humanizeDuration(len[f], { units: ['mo', 'd'], round: true }) + "<br>";
         }
         document.getElementById("totaldur").innerHTML = textdur;
-    });
-
-
-    holiday_ratio = (253/365);
-    equiv_holidays = (new Date() - trip_start)*holiday_ratio; //nombre de jours à poser pour faire pareil
-    holidays_fr = 35/365;
-    holidays_us = 10/365;
-    equiv_fr = equiv_holidays/holidays_fr;
-    equiv_us = equiv_holidays/holidays_us;
-    document.getElementById("hfr").innerHTML = humanizeDuration(equiv_fr, { units: ['y', 'mo', 'd'], round: true });
-    document.getElementById("hus").innerHTML = humanizeDuration(equiv_us, { units: ['y', 'mo', 'd'], round: true });
-
+    }
 </script>
 
 </body>
