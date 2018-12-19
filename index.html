@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Progress</title>
+
+    <script src="humanize-duration.js"></script>
+</head>
+
+<body>
+<div style="text-align: center;">
+    <div style="margin-top: 1cm; font-size: 20px">Time in South America :</div>
+    <div id="percent" style="font-size:90px; margin-bottom: 1cm"></div>
+    <canvas id="drawArea" width="1200" height="90"></canvas>
+    <p id="holidays" style="margin-top: 1cm">
+        So far, I've spent as much time on holidays as I would have gotten in <span id="hfr"></span> at my 🇫🇷 work<br>
+        Or as much as the average 🇺🇸 worker would get in <span id="hus"></span>.
+    </p>
+    <hr style="margin: 1cm">
+    <div style="margin-bottom: 0.5cm"><b>Total time per country:</b></div>
+    <table id="totaldur" align="center" style="text-align: left"></table>
+</div>
+
+<script>
+    var total_len = 1200;
+
+    var trip_start = new Date("April 14, 2018");
+    var trip_end = new Date("March 19, 2019");
+    var trip_duration = (trip_end - trip_start);
+
+
+    setInterval(function () {
+                var progress = 100*(new Date() - trip_start)/trip_duration;
+                document.getElementById("percent").innerHTML = progress.toFixed(5) + "%";
+            }, 200);
+
+
+    function Stay(country, begin, end, flag) {
+        this.country = country;
+        this.begin = begin;
+        this.end = end;
+        this.flag = flag;
+    }
+
+    var c = document.getElementById("drawArea");
+    var ctx = c.getContext("2d");
+
+    var ar = document.createElement("img");
+    ar.src = "ar.png";
+    var ur = document.createElement("img");
+    ur.src = "ur.png";
+    var pe = document.createElement("img");
+    pe.src = "pe.png";
+    var bo = document.createElement("img");
+    bo.src = "bo.png";
+    bo.src = "bo.png";
+    var py = document.createElement("img");
+    py.src = "py.png";
+    var br = document.createElement("img");
+    br.src = "br.png";
+
+    var stays = [
+        new Stay(ar, trip_start, new Date("April 25, 2018"), '🇦🇷'),
+        new Stay(ur, new Date("April 25, 2018"), new Date("June 6, 2018"), '🇺🇾'),
+        new Stay(pe, new Date("June 6, 2018"), new Date("August 19, 2018"), '🇵🇪'),
+        new Stay(bo, new Date("August 19, 2018"), new Date("September 21, 2018"), '🇧🇴'),
+        new Stay(ar, new Date("September 21, 2018"), new Date(), '🇦🇷'),
+    ];
+
+    bo.addEventListener("load", function () {
+
+        len = [];
+        for (var s of stays) {
+            len[s.flag] = s.end - s.begin + (len[s.flag] == null ? 0 : len[s.flag]);
+
+            var pat = ctx.createPattern(s.country, 'repeat-x');
+            var start = total_len * ((s.begin - trip_start)) / trip_duration;
+            var width = total_len * ((s.end - s.begin)) / trip_duration;
+            ctx.beginPath();
+            ctx.rect(start, 0, width, 90);
+            ctx.fillStyle = pat;
+            ctx.fill();
+        }
+
+        ctx.beginPath();
+        ctx.lineWidth = "5";
+        ctx.strokeStyle = "black";
+        ctx.rect(0, 0, total_len, 90);
+        ctx.stroke();
+
+
+        var textdur = "";
+        for (var f in len){
+            textdur += f + " " + humanizeDuration(len[f], { units: ['mo', 'd'], round: true }) + "<br>";
+        }
+        document.getElementById("totaldur").innerHTML = textdur;
+    });
+
+
+    holiday_ratio = (253/365);
+    equiv_holidays = (new Date() - trip_start)*holiday_ratio; //nombre de jours à poser pour faire pareil
+    holidays_fr = 35/365;
+    holidays_us = 10/365;
+    equiv_fr = equiv_holidays/holidays_fr;
+    equiv_us = equiv_holidays/holidays_us;
+    document.getElementById("hfr").innerHTML = humanizeDuration(equiv_fr, { units: ['y', 'mo', 'd'], round: true });
+    document.getElementById("hus").innerHTML = humanizeDuration(equiv_us, { units: ['y', 'mo', 'd'], round: true });
+
+</script>
+
+</body>
+</html>
