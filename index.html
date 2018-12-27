@@ -12,7 +12,7 @@
 <div style="text-align: center;">
     <div style="margin-top: 1cm; font-size: 20px">Time in South America :</div>
     <div id="percent" style="font-size:90px; margin-bottom: 1cm"></div>
-    <canvas id="drawArea" width="1200" height="90"></canvas>
+    <canvas id="drawArea" width="1017" height="90"></canvas>
     <p id="holidays" style="margin-top: 1cm">
         So far, I've spent as much time on holidays as I would have gotten in <span id="hfr"></span> at my 🇫🇷 work<br>
         Or as much as the average 🇺🇸 worker would get in <span id="hus"></span>.
@@ -23,7 +23,7 @@
 </div>
 
 <script>
-    var total_len = 1200;
+    var total_len = 1017;
 
     var trip_start = new Date("April 14, 2018");
     var trip_end = new Date("March 19, 2019");
@@ -47,7 +47,7 @@
     var ctx = c.getContext("2d");
 
 
-    var toload = 6;
+    var toload = 7;
     var ar = document.createElement("img");
     ar.src = "ar.png";
     var ur = document.createElement("img");
@@ -56,6 +56,8 @@
     pe.src = "pe.png";
     var bo = document.createElement("img");
     bo.src = "bo.png";
+    var cl = document.createElement("img");
+    cl.src = "cl.png";
     var py = document.createElement("img");
     py.src = "py.png";
     var br = document.createElement("img");
@@ -66,7 +68,8 @@
         new Stay(ur, new Date("April 25, 2018"), new Date("June 6, 2018"), '🇺🇾'),
         new Stay(pe, new Date("June 6, 2018"), new Date("August 19, 2018"), '🇵🇪'),
         new Stay(bo, new Date("August 19, 2018"), new Date("September 21, 2018"), '🇧🇴'),
-        new Stay(ar, new Date("September 21, 2018"), new Date(), '🇦🇷'),
+        new Stay(ar, new Date("September 21, 2018"), new Date("December 23, 2018"), '🇦🇷'),
+        new Stay(cl, new Date("December 23, 2018"), new Date(), '🇨🇱'),
     ];
 
     bo.addEventListener("load", processIfLoaded);
@@ -75,6 +78,7 @@
     ar.addEventListener("load", processIfLoaded);
     pe.addEventListener("load", processIfLoaded);
     ur.addEventListener("load", processIfLoaded);
+    cl.addEventListener("load", processIfLoaded);
 
 
     holiday_ratio = (253/365);
