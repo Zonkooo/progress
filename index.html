@@ -118,10 +118,15 @@
         ctx.rect(0, 0, total_len, 90);
         ctx.stroke();
 
+        var tots = [];
+        for (var f in len){
+            tots.push({f:f, d:len[f]});
+        }
+        tots.sort((a, b)=>{return b.d - a.d});
 
         var textdur = "";
-        for (var f in len){
-            textdur += f + " " + humanizeDuration(len[f], { units: ['mo', 'd'], round: true }) + "<br>";
+        for (var t of tots){
+            textdur += t.f + " " + humanizeDuration(t.d, { units: ['mo', 'd'], round: true }) + "<br>";
         }
         document.getElementById("totaldur").innerHTML = textdur;
     }
