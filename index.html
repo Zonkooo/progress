@@ -31,7 +31,7 @@
 
 
     setInterval(function () {
-                var progress = 100*(new Date() - trip_start)/trip_duration;
+                var progress = Math.min(100, 100*(new Date() - trip_start)/trip_duration);
                 document.getElementById("percent").innerHTML = progress.toFixed(5) + "%";
             }, 200);
 
@@ -75,7 +75,8 @@
         new Stay(ar, new Date("January 12, 2019"), new Date("January 20, 2019"), '🇦🇷'),
         new Stay(br, new Date("January 20, 2019"), new Date("January 23, 2019"), '🇧🇷'),
         new Stay(py, new Date("January 23, 2019"), new Date("February 9, 2019"), '🇵🇾'),
-        new Stay(bo, new Date("February 9, 2019"), new Date(), '🇧🇴'),
+        new Stay(bo, new Date("February 9, 2019"), new Date("March 6, 2019"), '🇧🇴'),
+        new Stay(br, new Date("March 6, 2019"), Math.min(new Date(), trip_end), '🇧🇷'),
     ];
 
     bo.addEventListener("load", processIfLoaded);
@@ -88,7 +89,7 @@
 
 
     holiday_ratio = (253/365);
-    equiv_holidays = (new Date() - trip_start)*holiday_ratio; //nombre de jours à poser pour faire pareil
+    equiv_holidays = (Math.min(new Date(), trip_end) - trip_start)*holiday_ratio; //nombre de jours à poser pour faire pareil
     holidays_fr = 35/365;
     holidays_us = 10/365;
     equiv_fr = equiv_holidays/holidays_fr;
